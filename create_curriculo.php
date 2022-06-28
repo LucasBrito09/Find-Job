@@ -63,10 +63,10 @@ if (empty($_COOKIE['token']) or empty($_COOKIE['hash'])) {
                 <?php if ($_SESSION['USER_TIPO'] == 'candidato') { ?>
                     <div class="aside-select-a">
                         <span class="material-icons-sharp">work</span>
-                        <h3>Vaga</h3>
+                        <h3>Currículo</h3>
                         <div class="aside-select">
                             <ul>
-                                <li><a href="<?= $_SESSION['USER_CURRICULO'] == true ? 'update_curriculo.php' : 'create_curriculo.php' ?>"><?= $_SESSION['USER_CURRICULO'] == true ? 'Atualizar currículo' : 'Cadastrar currículo' ?></a></li>
+                            <li><a href="<?= $_SESSION['USER_CURRICULO'] == true?'update_curriculo.php':'create_curriculo.php' ?>"><?= $_SESSION['USER_CURRICULO'] == true?'Atualizar currículo':'Cadastrar currículo' ?></a></li>
                             </ul>
                         </div>
                     </div>
@@ -102,59 +102,61 @@ if (empty($_COOKIE['token']) or empty($_COOKIE['hash'])) {
         <main>
             <section class="container-square">
                 <div class="container-vagaCrud">
-                    <form action="PAGES/VAGA/cadastrar_vaga.php" method="post">
+                    <form action="PAGES/VAGA/enviar_curriculo.php" method="post">
                         <div class="form-container">
                             <div class="container-vagaCrud-left">
                                 <fieldset>
-                                    <legend>País</legend>
-                                    <input type="text" placeholder="Digite o nome do seu País" name="pais" id="pais">
-                                    <span class="material-icons-sharp">room</span>
+                                    <legend>Qual cargo melhor descreve a sua experiência?</legend>
+                                    <input type="text" placeholder="Ex.: Desenvolvedor Web" name="cargo_experiencia">
                                 </fieldset>
                                 <fieldset>
-                                    <legend>Estado</legend>
-                                    <input type="text" placeholder="Digite o nome do seu Estado" name="estado" id="estado">
-                                    <span class="material-icons-sharp">room</span>
-                                </fieldset>
-                                <fieldset>
-                                    <legend>Cidade</legend>
+                                    <legend>Onde mora atualmente</legend>
                                     <input type="text" placeholder="Digite o nome da sua Cidade" name="cidade" id="cidade">
                                     <span class="material-icons-sharp">room</span>
                                 </fieldset>
                                 <div class="fieldset-checkboxRadio">
-                                    <legend>Tipo de contrato</legend>
-                                    <div class="fieldset-checkboxRadio-div"><label for="freelance"><input type="checkbox" value="Freelance" name="tipoContrato" id="freelance"><span>Freelance</span></label></div>
-                                    <div class="fieldset-checkboxRadio-div"><label for="full-time"><input type="checkbox" value="Full-time" name="tipoContrato" id="full-time"><span>Full-time</span></label></div>
-                                    <div class="fieldset-checkboxRadio-div"><label for="internship"><input type="checkbox" value="Internship" name="tipoContrato" id="internship"><span>Internship</span></label></div>
-                                    <div class="fieldset-checkboxRadio-div"><label for="part-time"><input type="checkbox" value="Part-time" name="tipoContrato" id="part-time"><span>Part-time</span></label></div>
+                                    <legend>Nível de inglês</legend>
+                                    <div class="fieldset-checkboxRadio-div"><label for="freelance"><input type="radio" value="basico" name="ingles" id="freelance"><span>Básico</span></label></div>
+                                    <div class="fieldset-checkboxRadio-div"><label for="full-time"><input type="radio" value="intermediario" name="ingles" id="full-time"><span>Intermédiario</span></label></div>
+                                    <div class="fieldset-checkboxRadio-div"><label for="internship"><input type="radio" value="fluente" name="ingles" id="internship"><span>Fluente</span></label></div>
                                 </div>
                                 <div class="fieldset-checkboxRadio">
-                                    <legend>Level</legend>
-                                    <div class="fieldset-checkboxRadio-div"><label for="junior"><input type="checkbox" name="nivel" value="junior" id="junior"><span>Junior</span></label></div>
-                                    <div class="fieldset-checkboxRadio-div"><label for="pleno"><input type="checkbox" name="nivel" value="pleno" id="pleno"><span>Pleno</span></label></div>
-                                    <div class="fieldset-checkboxRadio-div"><label for="senior"><input type="checkbox" name="nivel" value="Senior" id="senior"><span>Senior</span></label></div>
+                                    <legend>Nível de espanhol</legend>
+                                    <div class="fieldset-checkboxRadio-div"><label for="junior"><input type="radio" name="espanhol" value="basico" id="junior"><span>Básico</span></label></div>
+                                    <div class="fieldset-checkboxRadio-div"><label for="pleno"><input type="radio" name="espanhol" value="intermediario" id="pleno"><span>Intermédiario</span></label></div>
+                                    <div class="fieldset-checkboxRadio-div"><label for="senior"><input type="radio" name="espanhol" value="fluente" id="senior"><span>Fluente</span></label></div>
                                 </div>
-                                <div class="fieldset-checkboxRadio">
-                                    <legend>Tipo</legend>
-                                    <div class="fieldset-checkboxRadio-div"><label for="presencial"><input type="radio" name="formato" value="Presencial" id="presencial"><span>Presencial</span></label></div>
-                                    <div class="fieldset-checkboxRadio-div"><label for="remoto"><input type="radio" name="formato" value="Remoto" id="remoto"><span>Remoto</span></label></div>
-                                </div>
+
+                                <fieldset>
+                                    <legend>Formação</legend>
+                                    <textarea style="height: 175px;" placeholder="Sua formação" name="formacao" id="formacao"></textarea>
+                                </fieldset>
                             </div>
                             <div class="container-vagaCrud-right">
                                 <fieldset>
-                                    <legend>Titulo</legend>
-                                    <input type="text" placeholder="Digite um Titulo para vaga" name="titulo" id="titulo">
+                                    <legend>Telefone</legend>
+                                    <input type="text" placeholder="Digite seu número de telefone" name="telefone" id="telefone">
                                 </fieldset>
                                 <fieldset>
-                                    <legend>Nome da empresa</legend>
-                                    <input type="text" placeholder="Digite o nome da sua empresa" name="empresa" id="empresa">
+                                    <legend>Gênero</legend>
+                                    <select name="genero" id="genero">
+                                        <option selected disabled>Selecione um gênero</option>
+                                        <option value="m">Masculino</option>
+                                        <option value="f">Feminino</option>
+                                    </select>
                                 </fieldset>
                                 <fieldset>
-                                    <legend>Salário</legend>
-                                    <input type="number" placeholder="Digite qual valor você deseja pagar" name="salario" id="salario">
+                                    <legend>Pretenção salarial</legend>
+                                    <input type="number" placeholder="Digite qual valor que você deseja receber" name="salario" id="salario">
                                 </fieldset>
                                 <fieldset>
-                                    <legend>Descrição da vaga</legend>
-                                    <textarea placeholder="Adicione uma descrição da vaga" name="descricao" id="descricao"></textarea>
+                                    <legend>Experiência</legend>
+                                    <textarea style="height: 100px;" placeholder="Experiência" name="experiencia" id="experiencia"></textarea>
+                                </fieldset>
+
+                                <fieldset>
+                                    <legend>Apresentação</legend>
+                                    <textarea placeholder="Fale um pouco sobre você" name="apresentacao" id="descricao"></textarea>
                                 </fieldset>
                             </div>
                         </div>
@@ -202,7 +204,7 @@ if (empty($_COOKIE['token']) or empty($_COOKIE['hash'])) {
                             <input type="email" name="email" id="email" value="<?= $_SESSION['USER_EMAIL'] ?>" placeholder="Digite seu e-mail">
                         </fieldset>
                     </div>
-                    <input type="hidden" name="base_url" value="create_vaga.php">
+                    <input type="hidden" name="base_url" value="create_curriculo.php">
                     <div class="configuracao-btn">
                         <button type="submit">Editar</button>
                         <button class="configuracao-btn-close" type="button">Cancelar</button>

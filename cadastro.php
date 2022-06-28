@@ -10,6 +10,7 @@ if (!empty($_COOKIE['token']) or !empty($_COOKIE['hash'])) {
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -40,6 +41,11 @@ if (!empty($_COOKIE['token']) or !empty($_COOKIE['hash'])) {
                 <fieldset>
                     <legend>E-mail</legend>
                     <input type="text" name="email" id="email" placeholder="Informe seu e-mail">
+                </fieldset>
+                <fieldset>
+                    <legend>Tipo de usuário</legend>
+                    <p class="p__input__radio"><input class="input__type__radio" type="radio" value="candidato" name="tipo" id="tipo1"><label for="tipo1">Sou candidato</label></p>
+                    <p class="p__input__radio"><input class="input__type__radio" type="radio" value="empresa" name="tipo" id="tipo2"><label for="tipo2">Sou empresa</label></p>
                 </fieldset>
                 <fieldset>
                     <legend>Digite uma senha</legend>

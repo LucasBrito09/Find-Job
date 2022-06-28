@@ -70,6 +70,15 @@ main {
       padding: 10px;
       color: #616161;
     }
+    .p__input__radio{
+      display: flex;
+      margin: 10px 0;
+    }
+    .input__type__radio{
+      width: 20px;
+      height: 20px;  
+      margin-right: 5px;
+    }
     label {
       display: flex;
       justify-content: center;

@@ -19,6 +19,7 @@ $idDono = $_SESSION['USER_ID'];
 
 $informacoes = $listarVaga->listar($idVaga, $idDono);
 if (!$informacoes) {
+    //exit('<h1>Eita!! parece que você tentou acessar uma informação privada. <a href="home.php">Voltar pra tela principal</a></h1>');
     include_once('404.php');
     exit();
 }
@@ -72,16 +73,34 @@ $informacoes = $informacoes[0];
                     <h3>Histórico</h3>
                 </a>
                 <div class="aside-line"></div>
-                <div class="aside-select-a">
-                    <span class="material-icons-sharp">work</span>
-                    <h3>Empresa</h3>
-                    <div class="aside-select">
-                        <ul>
-                            <li><a href="create_vaga.php">Cadastrar vaga</a></li>
-                            <li><a href="recebidos.php">Curriculos recebidos</a></li>
-                        </ul>
+                <?php if ($_SESSION['USER_TIPO'] == 'candidato') { ?>
+                    <div class="aside-select-a">
+                        <span class="material-icons-sharp">work</span>
+                        <h3>Vaga</h3>
+                        <div class="aside-select">
+                            <ul>
+                                <li><a href="<?= $_SESSION['USER_CURRICULO'] == true ? 'update_curriculo.php' : 'create_curriculo.php' ?>"><?= $_SESSION['USER_CURRICULO'] == true ? 'Atualizar currículo' : 'Cadastrar currículo' ?></a></li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
+                <?php } else { ?>
+                    <div class="aside-select-a">
+                        <span class="material-icons-sharp">work</span>
+                        <h3>Empresa</h3>
+                        <div class="aside-select">
+                            <ul>
+                                <li><a href="create_vaga.php">Cadastrar vaga</a></li>
+                                <li><a href="recebidos.php">Curriculos recebidos</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <a href="profissionais.php">
+                        <span class="material-icons-sharp">assignment</span>
+                        <h3>Encontrar profissionais</h3>
+                    </a>
+                <?php } ?>
+
                 <div class="aside-line"></div>
                 <div class="aside-select-a open-setting">
                     <span class="material-icons-sharp">settings</span>
@@ -93,20 +112,8 @@ $informacoes = $informacoes[0];
                 </a>
             </div>
         </aside>
+        <!------------------ END OF ASIDE ------------------>
         <main>
-            <header>
-                <form action="/home.php" method="get">
-                    <input list="searchHistory" autocomplete="off" type="text" name="search" id="search" placeholder="Pesquisar vaga">
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                </form>
-                <datalist id="searchHistory">
-                    <option value="Diarista">
-                    <option value="Desenvolvedor Web">
-                    <option value="Mecânico">
-                    <option value="Cozinheira">
-                    <option value="Garçom">
-                </datalist>
-            </header>
             <section class="container-square">
                 <div class="container-vagaCrud">
                     <form action="PAGES/VAGA/atualizar_vaga.php" method="post">

@@ -2,6 +2,7 @@
 session_start();
 require_once("BD/conexao.php");
 require_once('PAGES/AUTH/sessao.php');
+require_once('PAGES/VAGA/listar_curriculo.php');
 if (empty($_COOKIE['token']) or empty($_COOKIE['hash'])) {
     header("Location: index.php");
     exit();
@@ -11,6 +12,9 @@ if (empty($_COOKIE['token']) or empty($_COOKIE['hash'])) {
         header("Location: index.php");
     }
 }
+$pesquisa = isset($_GET['search'])?$_GET['search']:null;
+$curriculoRecebidos = new Curriculo();
+$curriculoRecebidosListar = $curriculoRecebidos->listarPerson(null, $pesquisa);
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -99,70 +103,69 @@ if (empty($_COOKIE['token']) or empty($_COOKIE['hash'])) {
                 </a>
             </div>
         </aside>
+        <!------------------ END OF ASIDE ------------------>
         <main>
+            <header>
+                <form action="#" method="get">
+                    <input list="searchHistory" autocomplete="off" type="text" name="search" id="search" placeholder="Pesquisar">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </form>
+            </header>
             <section class="container-square">
-                <div class="container-vagaCrud">
-                    <form action="PAGES/VAGA/cadastrar_vaga.php" method="post">
-                        <div class="form-container">
-                            <div class="container-vagaCrud-left">
-                                <fieldset>
-                                    <legend>País</legend>
-                                    <input type="text" placeholder="Digite o nome do seu País" name="pais" id="pais">
-                                    <span class="material-icons-sharp">room</span>
-                                </fieldset>
-                                <fieldset>
-                                    <legend>Estado</legend>
-                                    <input type="text" placeholder="Digite o nome do seu Estado" name="estado" id="estado">
-                                    <span class="material-icons-sharp">room</span>
-                                </fieldset>
-                                <fieldset>
-                                    <legend>Cidade</legend>
-                                    <input type="text" placeholder="Digite o nome da sua Cidade" name="cidade" id="cidade">
-                                    <span class="material-icons-sharp">room</span>
-                                </fieldset>
-                                <div class="fieldset-checkboxRadio">
-                                    <legend>Tipo de contrato</legend>
-                                    <div class="fieldset-checkboxRadio-div"><label for="freelance"><input type="checkbox" value="Freelance" name="tipoContrato" id="freelance"><span>Freelance</span></label></div>
-                                    <div class="fieldset-checkboxRadio-div"><label for="full-time"><input type="checkbox" value="Full-time" name="tipoContrato" id="full-time"><span>Full-time</span></label></div>
-                                    <div class="fieldset-checkboxRadio-div"><label for="internship"><input type="checkbox" value="Internship" name="tipoContrato" id="internship"><span>Internship</span></label></div>
-                                    <div class="fieldset-checkboxRadio-div"><label for="part-time"><input type="checkbox" value="Part-time" name="tipoContrato" id="part-time"><span>Part-time</span></label></div>
+                <h2 class="container-titulo">Encontre um profissional para sua empresa </h2>
+                <div class="container-recebidos">
+
+                    <?php
+                    if ($curriculoRecebidosListar) {
+                        foreach ($curriculoRecebidosListar as $curriculoRecebidosListarFor) {
+                    ?>
+                            <div class="visualizar">
+                                <h1><?= $curriculoRecebidosListarFor['nome'] ?></h1>
+                                <div class="visualizar-container">
+                                    <h2 class="visualizar-subtitulo">Idioma</h2>
+                                    <p>Inglês: <span><?= ucfirst($curriculoRecebidosListarFor['level_ingles']) ?></span></p>
+                                    <p>Espanhol: <span><?= ucfirst($curriculoRecebidosListarFor['level_espanhol']) ?></span></p>
                                 </div>
-                                <div class="fieldset-checkboxRadio">
-                                    <legend>Level</legend>
-                                    <div class="fieldset-checkboxRadio-div"><label for="junior"><input type="checkbox" name="nivel" value="junior" id="junior"><span>Junior</span></label></div>
-                                    <div class="fieldset-checkboxRadio-div"><label for="pleno"><input type="checkbox" name="nivel" value="pleno" id="pleno"><span>Pleno</span></label></div>
-                                    <div class="fieldset-checkboxRadio-div"><label for="senior"><input type="checkbox" name="nivel" value="Senior" id="senior"><span>Senior</span></label></div>
+                                <div class="visualizar-container">
+                                    <h2 class="visualizar-subtitulo">Pretenção salarial</h2>
+                                    <p>R$ <span><?= number_format($curriculoRecebidosListarFor['salario'], 2, ",", ".") ?></span> Reais</p>
                                 </div>
-                                <div class="fieldset-checkboxRadio">
-                                    <legend>Tipo</legend>
-                                    <div class="fieldset-checkboxRadio-div"><label for="presencial"><input type="radio" name="formato" value="Presencial" id="presencial"><span>Presencial</span></label></div>
-                                    <div class="fieldset-checkboxRadio-div"><label for="remoto"><input type="radio" name="formato" value="Remoto" id="remoto"><span>Remoto</span></label></div>
+                                <div class="visualizar-container">
+                                    <h2 class="visualizar-subtitulo">Carga que descreve a experiência deste usuário</h2>
+                                    <p><span><?= $curriculoRecebidosListarFor['cargo_experiencia'] ?></span></p>
+                                </div>
+                                <div class="visualizar-container">
+                                    <h2 class="visualizar-subtitulo">Apresentação</h2>
+                                    <p><span><?= $curriculoRecebidosListarFor['apresentacao'] ?></span></p>
+                                </div>
+                                <div class="visualizar-container">
+                                    <h2 class="visualizar-subtitulo">Experiência</h2>
+                                    <p><span><?= $curriculoRecebidosListarFor['experiencia'] ?></span></p>
+                                </div>
+                                <div class="visualizar-container">
+                                    <h2 class="visualizar-subtitulo">Contato</h2>
+                                    <p>Telefone: <span><?= $curriculoRecebidosListarFor['telefone'] ?></span></p>
+                                    <p>E-mail: <span><?= $curriculoRecebidosListarFor['email'] ?></span></p>
+                                </div>
+                                <div class="visualizar-container">
+                                    <h2 class="visualizar-subtitulo">Gênero</h2>
+                                    <p><span><?= $curriculoRecebidosListarFor['telefone'] == 'f' ? 'Feminino' : 'Masculino' ?></span></p>
+                                </div>
+                                <div class="visualizar-container">
+                                    <h2 class="visualizar-subtitulo">Formação</h2>
+                                    <p><span><?= $curriculoRecebidosListarFor['formacao'] ?></span></p>
                                 </div>
                             </div>
-                            <div class="container-vagaCrud-right">
-                                <fieldset>
-                                    <legend>Titulo</legend>
-                                    <input type="text" placeholder="Digite um Titulo para vaga" name="titulo" id="titulo">
-                                </fieldset>
-                                <fieldset>
-                                    <legend>Nome da empresa</legend>
-                                    <input type="text" placeholder="Digite o nome da sua empresa" name="empresa" id="empresa">
-                                </fieldset>
-                                <fieldset>
-                                    <legend>Salário</legend>
-                                    <input type="number" placeholder="Digite qual valor você deseja pagar" name="salario" id="salario">
-                                </fieldset>
-                                <fieldset>
-                                    <legend>Descrição da vaga</legend>
-                                    <textarea placeholder="Adicione uma descrição da vaga" name="descricao" id="descricao"></textarea>
-                                </fieldset>
-                            </div>
-                        </div>
-                        <button type="submit">POSTAR</button>
-                    </form>
+                    <?php
+                        }
+                    } else {
+                        echo "<h2>Nenhum currículo cadastrado em nosso sistema</h2>";
+                    }
+                    ?>
                 </div>
             </section>
         </main>
+
         <div class="right">
             <div class="top">
                 <button id="menu-btn">
@@ -183,6 +186,7 @@ if (empty($_COOKIE['token']) or empty($_COOKIE['hash'])) {
             </div>
         </div>
     </div>
+
     <div class="alerta-configuracao">
         <div class="configuracao">
             <h2 class="configuracao-titulo">Editar meus dados pessoais</h2>
@@ -202,7 +206,7 @@ if (empty($_COOKIE['token']) or empty($_COOKIE['hash'])) {
                             <input type="email" name="email" id="email" value="<?= $_SESSION['USER_EMAIL'] ?>" placeholder="Digite seu e-mail">
                         </fieldset>
                     </div>
-                    <input type="hidden" name="base_url" value="create_vaga.php">
+                    <input type="hidden" name="base_url" value="recebidos.php">
                     <div class="configuracao-btn">
                         <button type="submit">Editar</button>
                         <button class="configuracao-btn-close" type="button">Cancelar</button>
@@ -219,7 +223,7 @@ if (empty($_COOKIE['token']) or empty($_COOKIE['hash'])) {
                             <input type="text" name="senhaNew" id="senhaNew" placeholder="Digite sua nova senha">
                         </fieldset>
                     </div>
-                    <input type="hidden" name="base_url" value="create_vaga.php">
+                    <input type="hidden" name="base_url" value="home.php">
                     <div class="configuracao-btn">
                         <button type="submit">Editar</button>
                         <button class="configuracao-btn-close" type="button">Cancelar</button>
@@ -228,6 +232,14 @@ if (empty($_COOKIE['token']) or empty($_COOKIE['hash'])) {
             </div>
         </div>
     </div>
+    <div class="view-curriculo">
+        <div class="view-curriculo-close"></div>
+        <span class="material-icons-sharp view-curriculo-btnClose">close</span>
+        <div class="view-curriculo-conteudo">
+            <img class="view-curriculo-img" draggable="false" src="./assets/IMG/Infinity-loading.gif" alt="loading">
+        </div>
+    </div>
+    <script src="./assets/JS/home.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <?php if (isset($_SESSION['ERROR_REPORTING'])) { ?>
         <script>
@@ -241,19 +253,6 @@ if (empty($_COOKIE['token']) or empty($_COOKIE['hash'])) {
             ?>
         </script>
     <?php } ?>
-    <?php if (isset($_SESSION['VAGA_REPORTING'])) { ?>
-        <script>
-            <?php
-            if (!$_SESSION['VAGA_REPORTING']) { ?>
-                swal("Muito bom!", "Vaga cadastrada com sucesso!");
-            <?php } else { ?>
-                swal("Sinto muito!", "Não conseguimos cadastrar esta vaga. Por favor, tente novamente!");
-            <?php }
-            unset($_SESSION['VAGA_REPORTING']);
-            ?>
-        </script>
-    <?php } ?>
-    <script src="./assets/JS/home.js"></script>
 </body>
 
 </html>

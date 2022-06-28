@@ -65,16 +65,34 @@ $historico = new Historico();
                     <h3>Histórico</h3>
                 </a>
                 <div class="aside-line"></div>
-                <div class="aside-select-a">
-                    <span class="material-icons-sharp">work</span>
-                    <h3>Empresa</h3>
-                    <div class="aside-select">
-                        <ul>
-                            <li><a href="create_vaga.php">Cadastrar vaga</a></li>
-                            <li><a href="recebidos.php">Curriculos recebidos</a></li>
-                        </ul>
+                <?php if ($_SESSION['USER_TIPO'] == 'candidato') { ?>
+                    <div class="aside-select-a">
+                        <span class="material-icons-sharp">work</span>
+                        <h3>Currículo</h3>
+                        <div class="aside-select">
+                            <ul>
+                                <li><a href="<?= $_SESSION['USER_CURRICULO'] == true ? 'update_curriculo.php' : 'create_curriculo.php' ?>"><?= $_SESSION['USER_CURRICULO'] == true ? 'Atualizar currículo' : 'Cadastrar currículo' ?></a></li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
+                <?php } else { ?>
+                    <div class="aside-select-a">
+                        <span class="material-icons-sharp">work</span>
+                        <h3>Empresa</h3>
+                        <div class="aside-select">
+                            <ul>
+                                <li><a href="create_vaga.php">Cadastrar vaga</a></li>
+                                <li><a href="recebidos.php">Curriculos recebidos</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <a href="profissionais.php">
+                        <span class="material-icons-sharp">assignment</span>
+                        <h3>Encontrar profissionais</h3>
+                    </a>
+                <?php } ?>
+
                 <div class="aside-line"></div>
                 <div class="aside-select-a open-setting">
                     <span class="material-icons-sharp">settings</span>
@@ -87,79 +105,27 @@ $historico = new Historico();
             </div>
         </aside>
         <main>
-            <header>
-                <form action="/home.php" method="get">
-                    <input list="searchHistory" autocomplete="off" type="text" name="search" id="search" placeholder="Pesquisar">
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                </form>
-                <datalist id="searchHistory">
-                    <option value="Diarista">
-                    <option value="Desenvolvedor Web">
-                    <option value="Mecânico">
-                    <option value="Cozinheira">
-                    <option value="Garçom">
-                </datalist>
-            </header>
             <section class="container-square">
                 <h2 class="container-titulo">Seu histórico</h2>
-                <div class="container-btn-acoes">
+                <div class="container-btn-acoes" style="display: none">
                     <button data-id="0" class="active">Vaga cadastradas</button>
                     <button data-id="1">Vaga candidatadas</button>
                 </div>
-                <p class="container-paragrafo">Veja abaixo todas as vagas que você cadastrou em nosso sistema</p>
+                <p class="container-paragrafo"><?= $_SESSION['USER_TIPO'] == 'candidato' ? 'Veja abaixo todas as vagas que você inscreveu-se em nosso sistema' : 'Veja abaixo todas as vagas que você cadastrou em nosso sistema' ?></p>
                 <div class="container-vagas">
-                    <div class="container-vagas-cadastradas container-vagas-active">
-                        <?php
-                        if (count($historico->listar('vaga', $_SESSION['USER_ID']))) {
-                            foreach ($historico->listar('vaga', $_SESSION['USER_ID']) as $key => $value) {
-                                $descricaoTotalCaractere = strlen($value['descricao']);
-                                if ($descricaoTotalCaractere > 230) {
-                                    $descricao = '<p>' . substr($value['descricao'], 0, 230) . '...</p>';
-                                } else {
-                                    $descricao = '<p>' . $value['descricao'] . '</p>';
-                                }
-                                echo '<div class="vagas-conteudo vagas-history">
-                            <div class="vagas-conteudo-titulo">
-                                <div>
-                                    <h2>' . $value['titulo'] . '</h2>
-                                    <p>' . $value['empresa'] . ' • ' . $value['cidade'] . ', ' . $value['estado'] . ' - ' . $value['forma_trabalho'] . ' </p>
-                                </div>
-                                <h3 class="vagas-conteudo-acao-editar"><span class="material-icons-sharp">more_vert</span>
-                                    <div class="vagas-conteudo-acao-editar-card">
-                                        <ul>
-                                        <li><a href="editar_vaga.php?id=' . $value['id'] . '">Editar</a></li>
-                                        <li class="deletar-vaga" data-id="' . $value['id'] . '">Deletar</li>
-                                        <li><a href="vaga.php?id=' . $value['id'] . '">Visualizar</a></li>
-                                        </ul>
-                                    </div>
-                                </h3>
-                            </div>
-                            <div class="vagas-conteudo-texto">
-                                <p>' . $descricao . '</p>
-                            </div>
-                            <div class="vagas-conteudo-acoes" style="display: none">
-                                <button class="vagas-acoes-btn-enviar vagas-acoes-btn-visualizar"><a href="#">VISUALIZAR VAGA</a></button>
-                            </div>
-                        </div>';
-                            }
-                        } else {
-                            echo '<div class="vagas-conteudo vagas-conteudo-vazio">
-                                <p>Você ainda não se cadastrou em nenhuma vaga. <a href="create-vaga.php">Cadastre</a> agora mesmo!</p>
-                            </div>';
-                        }
-                        ?>
-                    </div>
-                    <div class="container-vagas-candidatadas">
-                        <?php
-                        if (count($historico->listar('curriculo', $_SESSION['USER_ID']))) {
-                            foreach ($historico->listar('curriculo', $_SESSION['USER_ID']) as $key => $value) {
-                                $descricaoTotalCaractere = strlen($value['descricao']);
-                                if ($descricaoTotalCaractere > 230) {
-                                    $descricao = '<p>' . substr($value['descricao'], 0, 230) . '...</p>';
-                                } else {
-                                    $descricao = '<p>' . $value['descricao'] . '</p>';
-                                }
-                                echo '<div class="vagas-conteudo vagas-history">
+                    <?php if ($_SESSION['USER_TIPO'] == 'candidato') { ?>
+
+                        <div class="container-vagas-candidatadas container-vagas-active">
+                            <?php
+                            if (count($historico->listar('curriculo', $_SESSION['USER_ID']))) {
+                                foreach ($historico->listar('curriculo', $_SESSION['USER_ID']) as $key => $value) {
+                                    $descricaoTotalCaractere = strlen($value['descricao']);
+                                    if ($descricaoTotalCaractere > 230) {
+                                        $descricao = '<p>' . substr($value['descricao'], 0, 230) . '...</p>';
+                                    } else {
+                                        $descricao = '<p>' . $value['descricao'] . '</p>';
+                                    }
+                                    echo '<div class="vagas-conteudo vagas-history">
                             <div class="vagas-conteudo-titulo">
                                 <div>
                                     <h2>' . $value['titulo'] . '</h2>
@@ -173,14 +139,58 @@ $historico = new Historico();
                                 <button class="vagas-acoes-btn-enviar vagas-acoes-btn-visualizar"><a href="#">VISUALIZAR VAGA</a></button>
                             </div>
                         </div>';
-                            }
-                        } else {
-                            echo '<div class="vagas-conteudo vagas-conteudo-vazio">
+                                }
+                            } else {
+                                echo '<div class="vagas-conteudo vagas-conteudo-vazio">
                                     <p>Você não se candidatou em nenhuma vaga até o momento</p>
                                 </div>';
-                        }
-                        ?>
-                    </div>
+                            }
+                            ?>
+
+                        </div>
+                    <?php } else { ?>
+                        <div class="container-vagas-cadastradas container-vagas-active">
+                            <?php
+                            if (count($historico->listar('vaga', $_SESSION['USER_ID']))) {
+                                foreach ($historico->listar('vaga', $_SESSION['USER_ID']) as $key => $value) {
+                                    $descricaoTotalCaractere = strlen($value['descricao']);
+                                    if ($descricaoTotalCaractere > 230) {
+                                        $descricao = '<p>' . substr($value['descricao'], 0, 230) . '...</p>';
+                                    } else {
+                                        $descricao = '<p>' . $value['descricao'] . '</p>';
+                                    }
+                                    echo '<div class="vagas-conteudo vagas-history">
+                                <div class="vagas-conteudo-titulo">
+                                    <div>
+                                        <h2>' . $value['titulo'] . '</h2>
+                                        <p>' . $value['empresa'] . ' • ' . $value['cidade'] . ', ' . $value['estado'] . ' - ' . $value['forma_trabalho'] . ' </p>
+                                    </div>
+                                    <h3 class="vagas-conteudo-acao-editar"><span class="material-icons-sharp">more_vert</span>
+                                        <div class="vagas-conteudo-acao-editar-card">
+                                            <ul>
+                                            <a href="editar_vaga.php?id=' . $value['id'] . '"><li>Editar</li></a>
+                                            <li class="deletar-vaga" data-id="' . $value['id'] . '">Deletar</li>
+                                            <a href="vaga.php?id=' . $value['id'] . '"><li>Visualizar</li></a>
+                                            </ul>
+                                        </div>
+                                    </h3>
+                                </div>
+                                <div class="vagas-conteudo-texto">
+                                    <p>' . $descricao . '</p>
+                                </div>
+                                <div class="vagas-conteudo-acoes" style="display: none">
+                                    <button class="vagas-acoes-btn-enviar vagas-acoes-btn-visualizar"><a href="#">VISUALIZAR VAGA</a></button>
+                                </div>
+                            </div>';
+                                }
+                            } else {
+                                echo '<div class="vagas-conteudo vagas-conteudo-vazio">
+                                <p>Você ainda não se cadastrou em nenhuma vaga. <a href="create-vaga.php">Cadastre</a> agora mesmo!</p>
+                            </div>';
+                            }
+                            ?>
+                        </div>
+                    <?php } ?>
                 </div>
             </section>
         </main>

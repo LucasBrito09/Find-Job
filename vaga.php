@@ -42,6 +42,7 @@ $informacoes = $informacoes[0];
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/assets/CSS/home.css" />
 </head>
+
 <body>
     <?php if ($sessaoAtivo) { ?>
         <div class="container">
@@ -70,16 +71,34 @@ $informacoes = $informacoes[0];
                         <h3>Histórico</h3>
                     </a>
                     <div class="aside-line"></div>
-                    <div class="aside-select-a">
-                        <span class="material-icons-sharp">work</span>
-                        <h3>Empresa</h3>
-                        <div class="aside-select">
-                            <ul>
-                                <li><a href="create_vaga.php">Cadastrar vaga</a></li>
-                                <li><a href="recebidos.php">Curriculos recebidos</a></li>
-                            </ul>
+                    <?php if ($_SESSION['USER_TIPO'] == 'candidato') { ?>
+                        <div class="aside-select-a">
+                            <span class="material-icons-sharp">work</span>
+                            <h3>Vaga</h3>
+                            <div class="aside-select">
+                                <ul>
+                                    <li><a href="<?= $_SESSION['USER_CURRICULO'] == true ? 'update_curriculo.php' : 'create_curriculo.php' ?>"><?= $_SESSION['USER_CURRICULO'] == true ? 'Atualizar currículo' : 'Cadastrar currículo' ?></a></li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
+                    <?php } else { ?>
+                        <div class="aside-select-a">
+                            <span class="material-icons-sharp">work</span>
+                            <h3>Empresa</h3>
+                            <div class="aside-select">
+                                <ul>
+                                    <li><a href="create_vaga.php">Cadastrar vaga</a></li>
+                                    <li><a href="recebidos.php">Curriculos recebidos</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <a href="profissionais.php">
+                            <span class="material-icons-sharp">assignment</span>
+                            <h3>Encontrar profissionais</h3>
+                        </a>
+                    <?php } ?>
+
                     <div class="aside-line"></div>
                     <div class="aside-select-a open-setting">
                         <span class="material-icons-sharp">settings</span>

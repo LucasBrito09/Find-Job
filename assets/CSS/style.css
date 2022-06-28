@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
 * {
   margin: 0;
@@ -41,6 +42,7 @@ img {
 }
 
 #banner .header-container {
+  /***** Usamos display flexbox para facilitar na centralização dos nossos elementos ******/
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -48,8 +50,10 @@ img {
       -ms-flex-pack: justify;
           justify-content: space-between;
   max-width: 1300px;
+  /***** dizemos que queremos 1300 de comprimento, ou seja, em dispositos maiores que isso não fará nosso projeto ficar todo bugado ******/
   height: 100%;
   margin: auto;
+  /***** centralizamos nosso projeto quando estivermos em um dispositivo com o comprimento de tela maior que 1300px ******/
   padding: 0 10px;
 }
 
@@ -68,13 +72,12 @@ img {
 }
 
 #banner .header-btn button {
+  padding: 11px 22.5px;
   border-radius: 25px;
   border: 0;
 }
 
 #banner .header-btn button a {
-  padding: 11px 22.5px;
-  display: block;
   height: 100%;
   width: 100%;
   color: #141414;
@@ -111,7 +114,9 @@ img {
   width: 100%;
   height: 600px;
   overflow: hidden;
+  /***** ocultamos tudo que estiver fora da tag  ******/
   position: relative;
+  /***** Adicionamos a propriedade position com o valor relative, assim, quando adicionarmos tag filhas com o valor position absolute, ela será absoluta a tag pai ******/
   padding: 0 10px;
 }
 
@@ -149,12 +154,11 @@ img {
 #banner .banner-conteudo .banner-conteudo-texto button {
   background-color: #fedc5a;
   border: 0;
+  padding: 11.5px 35px;
   border-radius: 2.5px;
 }
 
 #banner .banner-conteudo .banner-conteudo-texto button a {
-  padding: 11.5px 35px;
-  display: block;
   color: #3f2b3b;
   width: 100%;
   height: 100%;
@@ -165,6 +169,7 @@ img {
 @media screen and (max-width: 600px) {
   #banner .banner-conteudo .banner-conteudo-imagem {
     display: none;
+    /***** Ocultamos a imagem em dispositivos com o comprimento de tela menor que 600px ******/
   }
   #banner .banner-conteudo .banner-conteudo-texto {
     width: 100%;
@@ -276,6 +281,7 @@ img {
   #mensagem .mensagem-container {
     -ms-flex-wrap: wrap;
         flex-wrap: wrap;
+    /***** No flexbox a tag não quebra a linha, por padrão o valor é flex-wrap: nowrap, para podermos quebrar a linha para preencher em dispositivos menores precisamos dizer que queremos quebrar usando o valor wrap ******/
   }
   #mensagem .mensagem-texto {
     width: 100%;

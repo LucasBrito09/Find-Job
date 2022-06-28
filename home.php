@@ -75,15 +75,33 @@ if ($search) {
                     <h3>Histórico</h3>
                 </a>
                 <div class="aside-line"></div>
-                <div class="aside-select-a">
-                    <span class="material-icons-sharp">work</span>
-                    <h3>Empresa</h3>
-                    <div class="aside-select">
-                        <ul>
-                            <li><a href="create_vaga.php">Cadastrar vaga</a></li>
-                        </ul>
+                <?php if ($_SESSION['USER_TIPO'] == 'candidato') { ?>
+                    <div class="aside-select-a">
+                        <span class="material-icons-sharp">work</span>
+                        <h3>Currículo</h3>
+                        <div class="aside-select">
+                            <ul>
+                                <li><a href="<?= $_SESSION['USER_CURRICULO'] == true?'update_curriculo.php':'create_curriculo.php' ?>"><?= $_SESSION['USER_CURRICULO'] == true?'Atualizar currículo':'Cadastrar currículo' ?></a></li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
+                <?php } else { ?>
+                    <div class="aside-select-a">
+                        <span class="material-icons-sharp">work</span>
+                        <h3>Empresa</h3>
+                        <div class="aside-select">
+                            <ul>
+                                <li><a href="create_vaga.php">Cadastrar vaga</a></li>
+                                <li><a href="recebidos.php">Curriculos recebidos</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <a href="profissionais.php">
+                        <span class="material-icons-sharp">assignment</span>
+                        <h3>Encontrar profissionais</h3>
+                    </a>
+                <?php } ?>
+
                 <div class="aside-line"></div>
                 <div class="aside-select-a open-setting">
                     <span class="material-icons-sharp">settings</span>
@@ -101,13 +119,6 @@ if ($search) {
                     <input list="searchHistory" autocomplete="off" type="text" name="search" id="search" placeholder="Pesquisar vaga">
                     <i class="fa fa-search" aria-hidden="true"></i>
                 </form>
-                <datalist id="searchHistory">
-                    <option value="Diarista">
-                    <option value="Desenvolvedor Web">
-                    <option value="Mecânico">
-                    <option value="Cozinheira">
-                    <option value="Garçom">
-                </datalist>
             </header>
             <section class="container-square">
                 <?php if ($search) { ?>

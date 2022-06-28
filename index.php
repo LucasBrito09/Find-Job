@@ -28,8 +28,8 @@ if (!empty($_COOKIE['token']) or !empty($_COOKIE['hash'])) {
                     <img draggable="false" src="./assets/IMG/logo.png" alt="logo find job">
                 </div>
                 <div class="header-btn">
-                    <button class="header-btn-entrar"><a href="login.php">Entrar</a></button>
-                    <button class="header-btn-cadastrar"><a href="cadastro.php">Cadastrar</a></button>
+                    <a href="login.php"><button class="header-btn-entrar">Entrar</button></a>
+                    <a href="cadastro.php"><button class="header-btn-cadastrar">Cadastrar</button></a>
                 </div>
             </div>
         </header>
@@ -42,7 +42,7 @@ if (!empty($_COOKIE['token']) or !empty($_COOKIE['hash'])) {
                     de emprego para você</h2>
                 <p>O Find Job é eficiente para profissionais e para empresas, tanto para divulgação de vagas, quanto
                     para contratação.</p>
-                <button><a href="cadastro.php">Cadastre-se</a></button>
+                <a href="cadastro.php"><button>Cadastre-se</button></a>
             </div>
         </div>
     </section>

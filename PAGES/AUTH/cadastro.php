@@ -7,12 +7,14 @@ class Cadastro extends Conexao
     public $email;
     public $senha;
     public $senhaConfirmar;
+    public $tipo;
     public function __construct(array $dados)
     {
         $this->nome = $dados['nome'];
         $this->email = $dados['email'];
         $this->senha = $dados['senha'];
         $this->senhaConfirmar = $dados['senha-confirm'];
+        $this->tipo = $dados['tipo'];
     }
     public function validarCadastro()
     {
@@ -21,6 +23,7 @@ class Cadastro extends Conexao
         $this->email = $this->validarDados($this->email);
         $this->senha = $this->validarDados($this->senha);
         $this->senhaConfirmar = $this->validarDados($this->senhaConfirmar);
+        $this->tipo = $this->validarDados($this->tipo);
 
         $sqlSelect = "SELECT * FROM Usuario WHERE email = '$this->email'";
 
@@ -30,7 +33,7 @@ class Cadastro extends Conexao
         }
         if ($this->senha == $this->senhaConfirmar) {
             $senha = password_hash($this->senha, PASSWORD_DEFAULT);
-            $sqlInsert = "INSERT INTO Usuario (nome, email, senha) VALUES ('$this->nome', '$this->email', '$senha')";
+            $sqlInsert = "INSERT INTO Usuario (nome, email, senha, tipo, `hash`) VALUES ('$this->nome', '$this->email', '$senha', '$this->tipo', '0')";
             $resultado = $banco->query($sqlInsert);
             if ($resultado) {
                 return true;
@@ -49,7 +52,7 @@ if (empty($_POST['nome']) or empty($_POST['email']) or empty($_POST['senha']) or
     header("Location: ../../cadastro.php?alerta=erro");
     exit();
 } else {
-    $cadastro = new Cadastro(array("nome" => $_POST['nome'], "email" =>  $_POST['email'], "senha" =>  $_POST['senha'], "senha-confirm" =>  $_POST['senha-confirm']));
+    $cadastro = new Cadastro(array("nome" => $_POST['nome'], "email" =>  $_POST['email'], "senha" =>  $_POST['senha'], "senha-confirm" =>  $_POST['senha-confirm'], "tipo" =>  $_POST['tipo']));
     if ($cadastro->validarCadastro()) {
         header("Location: ../../login.php?alerta=sucesso");
     } else {

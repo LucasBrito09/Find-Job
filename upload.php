@@ -61,16 +61,34 @@ $idVaga = isset($_GET['id']) ? $_GET['id'] : '';
                     <h3>Histórico</h3>
                 </a>
                 <div class="aside-line"></div>
-                <div class="aside-select-a">
-                    <span class="material-icons-sharp">work</span>
-                    <h3>Empresa</h3>
-                    <div class="aside-select">
-                        <ul>
-                            <li><a href="create_vaga.php">Cadastrar vaga</a></li>
-                            <li><a href="recebidos.php">Curriculos recebidos</a></li>
-                        </ul>
+                <?php if ($_SESSION['USER_TIPO'] == 'candidato') { ?>
+                    <div class="aside-select-a">
+                        <span class="material-icons-sharp">work</span>
+                        <h3>Vaga</h3>
+                        <div class="aside-select">
+                            <ul>
+                                <li><a href="<?= $_SESSION['USER_CURRICULO'] == true ? 'update_curriculo.php' : 'create_curriculo.php' ?>"><?= $_SESSION['USER_CURRICULO'] == true ? 'Atualizar currículo' : 'Cadastrar currículo' ?></a></li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
+                <?php } else { ?>
+                    <div class="aside-select-a">
+                        <span class="material-icons-sharp">work</span>
+                        <h3>Empresa</h3>
+                        <div class="aside-select">
+                            <ul>
+                                <li><a href="create_vaga.php">Cadastrar vaga</a></li>
+                                <li><a href="recebidos.php">Curriculos recebidos</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <a href="profissionais.php">
+                        <span class="material-icons-sharp">assignment</span>
+                        <h3>Encontrar profissionais</h3>
+                    </a>
+                <?php } ?>
+
                 <div class="aside-line"></div>
                 <div class="aside-select-a open-setting">
                     <span class="material-icons-sharp">settings</span>
@@ -82,6 +100,7 @@ $idVaga = isset($_GET['id']) ? $_GET['id'] : '';
                 </a>
             </div>
         </aside>
+        <!------------------ END OF ASIDE ------------------>
         <main>
             <header>
                 <form action="/home.php" method="get">
@@ -139,7 +158,7 @@ $idVaga = isset($_GET['id']) ? $_GET['id'] : '';
             </div>
         </div>
     </div>
-    
+
     <div class="alerta-configuracao">
         <div class="configuracao">
             <h2 class="configuracao-titulo">Editar meus dados pessoais</h2>
@@ -211,6 +230,7 @@ $idVaga = isset($_GET['id']) ? $_GET['id'] : '';
             unset($_SESSION['ERROR_REPORTING']);
             ?>
         </script>
-    <?php } ?>  
+    <?php } ?>
 </body>
+
 </html>
